@@ -12,7 +12,7 @@
 */
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('')->middleware('auth')->group(function() {
+Route::prefix('panel')->middleware('auth')->group(function() {
     Route::resource('tickets', 'TicketsController');
     Route::post('tickets/reply/{ticket}', 'TicketsController@reply')->name('tickets.reply');
 });
