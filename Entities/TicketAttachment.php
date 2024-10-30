@@ -3,7 +3,7 @@
 namespace Modules\Tickets\Entities;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class TicketAttachment extends Model
 {

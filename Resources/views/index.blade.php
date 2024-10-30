@@ -22,6 +22,7 @@
                                 <thead>
                                 <tr>
                                     <th class="wd-15p border-bottom-0">شماره تیکت</th>
+                                    <th class="wd-15p border-bottom-0">دپارتمان</th>
                                     <th class="wd-15p border-bottom-0">کاربر</th>
                                     <th class="wd-15p border-bottom-0">موضوع</th>
                                     <th class="wd-15p border-bottom-0">وضعیت</th>
@@ -32,17 +33,20 @@
                                 <tbody>
                                 @foreach($items as $item)
                                     <tr>
-                                        <td>{{ $item->number }}</td>
-                                        <td>{{ optional($item->user)->name }}</td>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->department?->title }}</td>
+                                        <td>{{ $item->user?->name }}</td>
                                         <td>{{ $item->subject }}</td>
                                         <td>
-                                            @if($item->status == 0)
+                                            @if($item->status == 'new')
                                                 <span class="badge bg-info">ثبت شده</span>
-                                            @elseif($item->status == 1)
+                                            @elseif($item->status == 'pending')
                                                 <span class="badge bg-success">پاسخ داده شده</span>
-                                            @elseif($item->status == 2)
+                                            @elseif($item->status == 'answered')
                                                 <span class="badge bg-warning">پاسخ مشتری</span>
-                                            @elseif($item->status == 2)
+                                            @elseif($item->status == 'waiting')
+                                                <span class="badge bg-danger">بسته شده</span>
+                                            @elseif($item->status == 'closed')
                                                 <span class="badge bg-danger">بسته شده</span>
                                             @endif
                                         </td>
@@ -54,13 +58,13 @@
 {{--                                            <a href="{{ route('tickets.edit', $item->id) }}" class="btn btn-primary fs-14 text-white edit-icn" title="ویرایش">--}}
 {{--                                                <i class="fe fe-edit"></i>--}}
 {{--                                            </a>--}}
-                                            <button type="submit" onclick="return confirm('برای حذف اطمبنان دارید؟')" form="form-{{ $item->id }}" class="btn btn-danger fs-14 text-white edit-icn" title="حذف">
-                                                <i class="fe fe-trash"></i>
-                                            </button>
-                                            <form id="form-{{ $item->id }}" action="{{ route('tickets.destroy', $item->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
+{{--                                            <button type="submit" onclick="return confirm('برای حذف اطمبنان دارید؟')" form="form-{{ $item->id }}" class="btn btn-danger fs-14 text-white edit-icn" title="حذف">--}}
+{{--                                                <i class="fe fe-trash"></i>--}}
+{{--                                            </button>--}}
+{{--                                            <form id="form-{{ $item->id }}" action="{{ route('tickets.destroy', $item->id) }}" method="post">--}}
+{{--                                                @csrf--}}
+{{--                                                @method('DELETE')--}}
+{{--                                            </form>--}}
                                         </td>
                                     </tr>
                                 @endforeach

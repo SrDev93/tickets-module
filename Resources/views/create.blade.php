@@ -35,6 +35,16 @@
                                 <div class="invalid-feedback">لطفا کاربر را انتخاب کنید</div>
                             </div>
                             <div class="col-md-6">
+                                <label for="department_id" class="form-label">دپارتمان</label>
+                                <select name="department_id" class="form-control" required>
+                                    <option value>انتخاب دپارتمان</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department->id }}" @if(old('department_id' == $department->id)) selected @endif>{{ $department->title }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">لطفا کاربر را انتخاب کنید</div>
+                            </div>
+                            <div class="col-md-12">
                                 <label for="subject" class="form-label">موضوع</label>
                                 <input type="text" name="subject" class="form-control" id="subject" required value="{{ old('subject') }}">
                                 <div class="invalid-feedback">لطفا عنوان را وارد کنید</div>
@@ -45,10 +55,10 @@
                                 <div class="invalid-feedback">لطفا متن را وارد کنید</div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-12 mt-4">
                                 <a href="javascript:void(0);" class="btn btn-info add-attach"><i class="fa fa-plus"></i> افزودن پیوست </a>
                             </div>
-                            <div class="attachments row">
+                            <div class="attachments col-md-12 row">
                                 <div class="col-md-6">
                                     <label for="subject" class="form-label">فایل پیوست</label>
                                     <input type="file" name="attach[]" class="form-control">
@@ -56,7 +66,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12 mt-4">
                                 <button class="btn btn-primary" type="submit">ارسال فرم</button>
                                 @csrf
                             </div>

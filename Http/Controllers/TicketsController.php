@@ -2,13 +2,14 @@
 
 namespace Modules\Tickets\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\Account\Entities\User;
 use Modules\Tickets\Entities\Ticket;
 use Modules\Tickets\Entities\TicketAttachment;
+use Modules\Tickets\Entities\TicketDepartment;
 use Modules\Tickets\Entities\TicketMessage;
 
 class TicketsController extends Controller
@@ -31,8 +32,9 @@ class TicketsController extends Controller
     public function create()
     {
         $users = User::all();
+        $departments = TicketDepartment::all();
 
-        return view('tickets::create', compact('users'));
+        return view('tickets::create', compact('users', 'departments'));
     }
 
     /**
@@ -45,9 +47,8 @@ class TicketsController extends Controller
         try {
             $ticket = Ticket::create([
                 'user_id' => $request->user_id,
+                'department_id' => $request->department_id,
                 'subject' => $request->subject,
-                'number' => $this->generateTicketNumber(),
-                'status' => 0,
             ]);
 
             $message = TicketMessage::create([
@@ -60,14 +61,14 @@ class TicketsController extends Controller
                 foreach ($request->attach as $attach){
                     $ta = TicketAttachment::create([
                         'ticket_message_id' => $message->id,
-                        'path' => file_org_store($attach, 'assets/uploads/tickets/attachments/', 'file_')
+                        'path' => file_org_store($attach, 'assets/uploads/tickets/attachments/'.$ticket->id .'/', 'file_')
                     ]);
                 }
             }
 
             return redirect()->route('tickets.index')->with('flash_message', 'با موفقیت ثبت شد');
         }catch (\Exception $e){
-            return redirect()->back()->with('err_message', 'خطایی رخ داده است، لطفا مجددا تلاش نمایید');
+            return redirect()->back()->withInput()->with('err_message', 'خطایی رخ داده است، لطفا مجددا تلاش نمایید');
         }
     }
 
@@ -147,21 +148,15 @@ class TicketsController extends Controller
         }
     }
 
-    function generateTicketNumber() {
-        $number = mt_rand(1000000000, 9999999999); // better than rand()
+    public function status(Request $request, Ticket $ticket)
+    {
+        try {
+            $ticket->status = $request->status;
+            $ticket->save();
 
-        // call the same function if the barcode exists already
-        if ($this->TicketNumberExists($number)) {
-            return $this->generateTicketNumber();
+            return redirect()->route('tickets.index')->with('flash_message', 'تغییر وضعیت با موفقیت انجام شد');
+        }catch (\Exception $e){
+            return redirect()->back()->with('err_message', 'خطایی رخ داده است، لطفا مجددا تلاش نمایید');
         }
-
-        // otherwise, it's valid and can be used
-        return $number;
-    }
-
-    function TicketNumberExists($number) {
-        // query the database and return a boolean
-        // for instance, it might look like this in Laravel
-        return Ticket::whereNumber($number)->exists();
     }
 }

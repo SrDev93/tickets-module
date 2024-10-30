@@ -14,11 +14,12 @@ class CreateTicketsTable extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id();
-            $table->string('number')->nullable();
+            $table->id()->startingValue(1000);
+            $table->unsignedBigInteger('department_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('subject')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->enum('priority', ['low', 'medium', 'high'])->default('low');
+            $table->enum('status', ['new', 'pending', 'answered', 'waiting', 'closed'])->default('new');
             $table->timestamps();
         });
     }

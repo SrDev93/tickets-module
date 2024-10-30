@@ -2,9 +2,9 @@
 
 namespace Modules\Tickets\Entities;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
-use Modules\Account\Entities\User;
+use Illuminate\Database\Eloquent\Model;
 
 class TicketMessage extends Model
 {

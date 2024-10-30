@@ -28,6 +28,29 @@
 
                         <div class="card">
                             <div class="card-header border-bottom">
+                                <h3 class="card-title">تغییر وضعیت تیکت</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('tickets.status', $ticket->id) }}" method="post" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+                                    <div class="col-md-12">
+                                        <label for="status" class="form-label">وضعیت</label>
+                                        <select name="status" class="form-control">
+                                            <option value="pending">در حال بررسی</option>
+                                            <option value="closed">بسته شده</option>
+                                        </select>
+                                        <div class="invalid-feedback">لطفا وضعیت را انتخاب کنید</div>
+                                    </div>
+
+                                    <div class="col-12 mt-4">
+                                        <button class="btn btn-primary" type="submit">ارسال فرم</button>
+                                        @csrf
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header border-bottom">
                                 <h3 class="card-title">ارسال پاسخ</h3>
                             </div>
                             <div class="card-body">
@@ -38,10 +61,10 @@
                                         <div class="invalid-feedback">لطفا متن را وارد کنید</div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-12 mt-4">
                                         <a href="javascript:void(0);" class="btn btn-info add-attach"><i class="fa fa-plus"></i> افزودن پیوست </a>
                                     </div>
-                                    <div class="attachments row">
+                                    <div class="attachments col-md-12 row">
                                         <div class="col-md-6">
                                             <label for="subject" class="form-label">فایل پیوست</label>
                                             <input type="file" name="attach[]" class="form-control">
@@ -49,7 +72,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12">
+                                    <div class="col-12 mt-4">
                                         <button class="btn btn-primary" type="submit">ارسال فرم</button>
                                         @csrf
                                     </div>

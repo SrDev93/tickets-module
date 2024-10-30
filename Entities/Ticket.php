@@ -2,9 +2,9 @@
 
 namespace Modules\Tickets\Entities;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Jenssegers\Mongodb\Eloquent\Model;
-use Modules\Account\Entities\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
@@ -20,6 +20,11 @@ class Ticket extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(TicketDepartment::class, 'department_id');
     }
 
     public function messages() {
