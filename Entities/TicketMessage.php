@@ -2,6 +2,7 @@
 
 namespace Modules\Tickets\Entities;
 
+use App\Models\Seen;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,5 +25,10 @@ class TicketMessage extends Model
 
     public function attachments() {
         return $this->hasMany(TicketAttachment::class, 'ticket_message_id', 'id');
+    }
+
+    public function seen()
+    {
+        return $this->morphMany(Seen::class, 'seenable');
     }
 }
